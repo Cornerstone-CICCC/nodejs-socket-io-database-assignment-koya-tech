@@ -11,6 +11,18 @@ const getAllChats = async (req: Request, res: Response) => {
   }
 };
 
+const getMessagesByRoom = async (req: Request, res: Response) => {
+  const { room } = req.params;
+
+  try {
+    const messages = await Chat.find({ room }).sort({ createdAt: 1 }); // Sort by oldest first
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+};
+
 export default {
-  getAllChats
+  getAllChats,
+  getMessagesByRoom
 }
